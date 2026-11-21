@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"><title>Certificate expiry</title></head>
+<body style="margin:0;padding:24px;background:#f4f6f8;font-family:Segoe UI,Arial,sans-serif;color:#1f2937;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;">
+  <tr>
+    <td th:style="'padding:20px 24px;color:#fff;background:' + (${daysLeft} < 0 ? '#b91c1c' : (${daysLeft} == 0 ? '#c2410c' : '#b45309'))">
+      <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;">CertGuard</div>
+      <div style="font-size:20px;font-weight:600;margin-top:4px;">
+        <span th:if="${daysLeft > 0}" th:text="'Expires in ' + ${daysLeft} + (${daysLeft} == 1 ? ' day' : ' days')">Expires in N days</span>
+        <span th:if="${daysLeft == 0}">Expires today</span>
+        <span th:if="${daysLeft < 0}" th:text="'Expired ' + ${absDays} + (${absDays} == 1 ? ' day ago' : ' days ago')">Expired</span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:24px;">
+      <p style="margin:0 0 16px;font-size:15px;">
+        <strong th:text="${c.title}">Certificate</strong>
+        <span th:if="${daysLeft >= 0}">needs renewal soon.</span>
+        <span th:if="${daysLeft < 0}">has expired and has not been marked as renewed.</span>
+      </p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;">
+        <tr><td style="padding:8px 0;color:#6b7280;width:40%;border-bottom:1px solid #f0f0f0;">Type</td><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;" th:text="${type}">-</td></tr>
+        <tr><td style="padding:8px 0;color:#6b7280;border-bottom:1px solid #f0f0f0;">Issuer</td><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;" th:text="${c.issuer != null ? c.issuer : '-'}">-</td></tr>
+        <tr><td style="padding:8px 0;color:#6b7280;border-bottom:1px solid #f0f0f0;">Certificate no.</td><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;" th:text="${c.certNumber != null ? c.certNumber : '-'}">-</td></tr>
+        <tr><td style="padding:8px 0;color:#6b7280;border-bottom:1px solid #f0f0f0;">Issue date</td><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;" th:text="${issueDate}">-</td></tr>
+        <tr><td style="padding:8px 0;color:#6b7280;border-bottom:1px solid #f0f0f0;">Expiry date</td><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;font-weight:600;" th:text="${expiryDate}">-</td></tr>
+        <tr><td style="padding:8px 0;color:#6b7280;">Days</td>
+            <td style="padding:8px 0;font-weight:600;" th:text="${daysLeft >= 0 ? daysLeft + ' remaining' : absDays + ' overdue'}">-</td></tr>
+      </table>
+      <p style="margin:24px 0 0;">
+        <a th:href="${link}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;padding:10px 18px;border-radius:6px;font-size:14px;">Open in CertGuard</a>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:14px 24px;background:#f9fafb;color:#9ca3af;font-size:12px;">
+      You get this email because reminders are enabled for this certificate. Change reminder days or turn them off in CertGuard.
+    </td>
+  </tr>
+</table>
+</body>
+</html>
